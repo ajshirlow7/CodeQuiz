@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Code Quiz - Home</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Lexend:wght@100..900&display=swap');
+		body {
+			background-color: #5bc0eb;
+		}
+		.navbar-custom {
+			background-color: #404E4D;
+		}
+		.navbar-custom .navbar-brand {
+			color: #FDE74C;
+			font-family: 'Bungee Shade', cursive;
+			font-size: 2.2rem;
+		}
+		.navbar-custom .nav-link {
+			color: #FDE74C;
+			font-family: 'Lexend', sans-serif;
+		}
+		.btn-warning {
+			font-family: 'Lexend', sans-serif;
+		}
+		.body-text, .lead {
+			font-family: 'Lexend', sans-serif;
+		}
+		.footer-custom {
+			background-color: #404E4D;
+			color: #FDE74C;
+			font-family: 'Lexend', sans-serif;
+			padding: 1rem 0;
+			text-align: center;
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-custom">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Code Quiz</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto ms-5">
+					<li class="nav-item">
+						<a class="nav-link" href="#">HTML</a>
+					</li>
+					<li class="nav-item d-flex align-items-center" style="height:100%;">
+						<span class="vr mx-2" style="background-color:#FDE74C; width:2px; height:1.5em; align-self:center;"></span>
+						<a class="nav-link" href="#">CSS</a>
+					</li>
+					<li class="nav-item d-flex align-items-center" style="height:100%;">
+						<span class="vr mx-2" style="background-color:#FDE74C; width:2px; height:1.5em; align-self:center;"></span>
+						<a class="nav-link" href="#">JavaScript</a>
+					</li>
+					<li class="nav-item d-flex align-items-center" style="height:100%;">
+						<span class="vr mx-2" style="background-color:#FDE74C; width:2px; height:1.5em; align-self:center;"></span>
+						<a class="nav-link" href="#">Python</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Main Content -->
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8 text-center">
+				<h1 class="display-4" style="color:#404E4D; font-family: 'Bungee Shade', cursive;">Welcome to  the Code Quiz!</h1>
+				<p class="lead body-text" style="color:#404E4D; font-family: 'Lexend', sans-serif; margin-top: 2rem;">Test your coding knowledge with fun and challenging quizzes.</p>
+				<!-- Animated Mascot: Bouncing Cat -->
+				<div class="d-flex justify-content-center my-4">
+					<svg width="200" height="240" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: bounce 1.2s infinite;">
+						<!-- Cat body -->
+						<ellipse cx="100" cy="140" rx="60" ry="70" fill="#FDE74C" stroke="#404E4D" stroke-width="8"/>
+						
+						<!-- Cat head -->
+						<ellipse cx="100" cy="80" rx="40" ry="36" fill="#FDE74C" stroke="#404E4D" stroke-width="8"/>
+						<!-- Cat ears -->
+						<polygon points="70,60 80,20 90,60" fill="#FDE74C" stroke="#404E4D" stroke-width="6"/>
+						<polygon points="130,60 120,20 110,60" fill="#FDE74C" stroke="#404E4D" stroke-width="6"/>
+						<!-- Cat inner ears -->
+						<polygon points="78,44 80,28 86,56" fill="#FFB6B6" stroke="#FFB6B6" stroke-width="2"/>
+						<polygon points="122,44 120,28 114,56" fill="#FFB6B6" stroke="#FFB6B6" stroke-width="2"/>
+						<!-- Cat eyes -->
+						<ellipse id="cat-eye-left" cx="88" cy="80" rx="6" ry="8" fill="#404E4D"/>
+						<ellipse id="cat-eye-right" cx="112" cy="80" rx="6" ry="8" fill="#404E4D"/>
+						<!-- Cat eyelids for blinking -->
+						<ellipse id="cat-eyelid-left" cx="88" cy="80" rx="6" ry="8" fill="#FDE74C" style="opacity:0;"/>
+						<ellipse id="cat-eyelid-right" cx="112" cy="80" rx="6" ry="8" fill="#FDE74C" style="opacity:0;"/>
+						<!-- Cat nose -->
+						<ellipse cx="100" cy="94" rx="4" ry="3" fill="#404E4D"/>
+						<!-- Cat mouth -->
+						<path d="M96 100 Q100 108 104 100" stroke="#404E4D" stroke-width="4" fill="none"/>
+						<!-- Cat whiskers -->
+						<path d="M84 94 Q68 96 84 100" stroke="#404E4D" stroke-width="2" fill="none"/>
+						<path d="M116 94 Q132 96 116 100" stroke="#404E4D" stroke-width="2" fill="none"/>
+						<path d="M84 100 Q68 104 84 108" stroke="#404E4D" stroke-width="2" fill="none"/>
+						<path d="M116 100 Q132 104 116 108" stroke="#404E4D" stroke-width="2" fill="none"/>
+						<!-- Cat arms (moved up and bigger) -->
+						<path d="M64 120 Q40 144 80 176 Q88 184 104 176" stroke="#404E4D" stroke-width="10" fill="none"/>
+						<ellipse cx="80" cy="176" rx="8" ry="5" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+						<path d="M136 120 Q160 144 120 176 Q112 184 96 176" stroke="#404E4D" stroke-width="10" fill="none"/>
+						<ellipse cx="120" cy="176" rx="8" ry="5" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+						<!-- Cat paws -->
+						<ellipse cx="56" cy="210" rx="12" ry="8" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+						<ellipse cx="144" cy="210" rx="12" ry="8" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+						<!-- Cat tail -->
+						<path d="M160 180 Q190 220 160 240" stroke="#404E4D" stroke-width="8" fill="none"/>
+					</svg>
+				</div>
+								<style>
+										@keyframes bounce {
+												0%, 100% { transform: translateY(0); }
+												50% { transform: translateY(-20px); }
+										}
+								</style>
+								<script>
+								// Animate cat eyes to blink every 2.5 seconds
+								setInterval(() => {
+									document.getElementById('cat-eyelid-left').style.opacity = '1';
+									document.getElementById('cat-eyelid-right').style.opacity = '1';
+									setTimeout(() => {
+										document.getElementById('cat-eyelid-left').style.opacity = '0';
+										document.getElementById('cat-eyelid-right').style.opacity = '0';
+									}, 200);
+								}, 2000);
+								</script>
+				<a href="#" class="btn btn-warning btn-lg mt-3 me-2" style="background-color:#FDE74C; color:#404E4D; border:none;">HTML</a>
+				<a href="#" class="btn btn-warning btn-lg mt-3 me-2" style="background-color:#FDE74C; color:#404E4D; border:none;">CSS</a>
+				<a href="#" class="btn btn-warning btn-lg mt-3 me-2" style="background-color:#FDE74C; color:#404E4D; border:none;">JavaScript</a>
+				<a href="#" class="btn btn-warning btn-lg mt-3" style="background-color:#FDE74C; color:#404E4D; border:none;">Python</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer-custom">
+		<div class="container">
+			<span>&copy; 2025 Code Quiz. All rights reserved.</span>
+		</div>
+	</footer>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
