@@ -141,6 +141,79 @@ i<!DOCTYPE html>
 				<a href="#" class="btn btn-warning btn-lg mt-3 me-2" style="background-color:#FDE74C; color:#404E4D; border:none;">CSS</a>
 				<a href="#" class="btn btn-warning btn-lg mt-3 me-2" style="background-color:#FDE74C; color:#404E4D; border:none;">JavaScript</a>
 				<a href="#" class="btn btn-warning btn-lg mt-3" style="background-color:#FDE74C; color:#404E4D; border:none;">Python</a>
+				
+				<!-- Auth buttons - Enhanced visibility -->
+				<div class="mt-5 mb-4" style="border: 2px solid #404E4D; padding: 20px; border-radius: 10px; background-color: rgba(253, 231, 76, 0.1);">
+					<h4 style="color:#404E4D; font-family: 'Lexend', sans-serif; margin-bottom: 15px;">Join the Quiz Community!</h4>
+					<button type="button" class="btn btn-success btn-lg me-3" data-bs-toggle="modal" data-bs-target="#loginModal" style="padding: 12px 30px; font-size: 18px;">
+						🔑 Login
+					</button>
+					<button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal" style="padding: 12px 30px; font-size: 18px;">
+						📝 Register
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Login Modal -->
+	<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#404E4D;">
+					<h5 class="modal-title" id="loginModalLabel" style="color:#FDE74C; font-family: 'Lexend', sans-serif;">Login</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+				</div>
+				<div class="modal-body" style="background-color:#5bc0eb;">
+					<form id="loginForm">
+						<div class="mb-3">
+							<label for="loginUsername" class="form-label" style="color:#404E4D; font-family: 'Lexend', sans-serif;">Username</label>
+							<input type="text" class="form-control" id="loginUsername" required>
+						</div>
+						<div class="mb-3">
+							<label for="loginPassword" class="form-label" style="color:#404E4D; font-family: 'Lexend', sans-serif;">Password</label>
+							<input type="password" class="form-control" id="loginPassword" required>
+						</div>
+						<div id="loginMessage" class="alert" style="display:none;"></div>
+					</form>
+				</div>
+				<div class="modal-footer" style="background-color:#5bc0eb;">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success" id="loginSubmit">Login</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Register Modal -->
+	<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#404E4D;">
+					<h5 class="modal-title" id="registerModalLabel" style="color:#FDE74C; font-family: 'Lexend', sans-serif;">Create Account</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+				</div>
+				<div class="modal-body" style="background-color:#5bc0eb;">
+					<form id="registerForm">
+						<div class="mb-3">
+							<label for="registerUsername" class="form-label" style="color:#404E4D; font-family: 'Lexend', sans-serif;">Username</label>
+							<input type="text" class="form-control" id="registerUsername" required>
+						</div>
+						<div class="mb-3">
+							<label for="registerPassword" class="form-label" style="color:#404E4D; font-family: 'Lexend', sans-serif;">Password</label>
+							<input type="password" class="form-control" id="registerPassword" required>
+						</div>
+						<div class="mb-3">
+							<label for="confirmPassword" class="form-label" style="color:#404E4D; font-family: 'Lexend', sans-serif;">Confirm Password</label>
+							<input type="password" class="form-control" id="confirmPassword" required>
+						</div>
+						<div id="registerMessage" class="alert" style="display:none;"></div>
+					</form>
+				</div>
+				<div class="modal-footer" style="background-color:#5bc0eb;">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="registerSubmit">Create</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -154,5 +227,119 @@ i<!DOCTYPE html>
 
 	<!-- Bootstrap JS -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	
+	<!-- Custom JavaScript for Auth -->
+	<script>
+		// Get CSRF token
+		function getCSRFToken() {
+			return document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+		}
+
+		// Login functionality
+		document.getElementById('loginSubmit').addEventListener('click', function() {
+			const username = document.getElementById('loginUsername').value;
+			const password = document.getElementById('loginPassword').value;
+			const messageDiv = document.getElementById('loginMessage');
+
+			if (!username || !password) {
+				showMessage(messageDiv, 'Please fill in all fields.', 'danger');
+				return;
+			}
+
+			fetch('/login/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				body: JSON.stringify({
+					username: username,
+					password: password
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					showMessage(messageDiv, data.message, 'success');
+					setTimeout(() => {
+						location.reload(); // Reload page to show logged in state
+					}, 1500);
+				} else {
+					showMessage(messageDiv, data.message, 'danger');
+				}
+			})
+			.catch(error => {
+				showMessage(messageDiv, 'An error occurred. Please try again.', 'danger');
+			});
+		});
+
+		// Register functionality
+		document.getElementById('registerSubmit').addEventListener('click', function() {
+			const username = document.getElementById('registerUsername').value;
+			const password = document.getElementById('registerPassword').value;
+			const confirmPassword = document.getElementById('confirmPassword').value;
+			const messageDiv = document.getElementById('registerMessage');
+
+			if (!username || !password || !confirmPassword) {
+				showMessage(messageDiv, 'Please fill in all fields.', 'danger');
+				return;
+			}
+
+			if (password !== confirmPassword) {
+				showMessage(messageDiv, 'Passwords do not match.', 'danger');
+				return;
+			}
+
+			fetch('/register/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				body: JSON.stringify({
+					username: username,
+					password: password
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					showMessage(messageDiv, data.message, 'success');
+					setTimeout(() => {
+						bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+						bootstrap.Modal.getOrCreateInstance(document.getElementById('loginModal')).show();
+					}, 1500);
+				} else {
+					showMessage(messageDiv, data.message, 'danger');
+				}
+			})
+			.catch(error => {
+				showMessage(messageDiv, 'An error occurred. Please try again.', 'danger');
+			});
+		});
+
+		// Helper function to show messages
+		function showMessage(element, message, type) {
+			element.className = `alert alert-${type}`;
+			element.textContent = message;
+			element.style.display = 'block';
+		}
+
+		// Helper function to get cookie
+		function getCookie(name) {
+			let cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				const cookies = document.cookie.split(';');
+				for (let i = 0; i < cookies.length; i++) {
+					const cookie = cookies[i].trim();
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+	</script>
 </body>
 </html>

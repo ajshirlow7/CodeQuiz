@@ -92,6 +92,33 @@ class Command(BaseCommand):
                 ],
             },
             {
+                "text": "What are valid ways to reverse a list in Python?",
+                "answers": [
+                    ("list[::-1]", True),
+                    ("reversed(list)", True),
+                    ("list.reverse()", True),
+                    ("list = list.reverse()", False),
+                ],
+            },
+            {
+                "text": "Which of the following are immutable types in Python?",
+                "answers": [
+                    ("tuple", True),
+                    ("str", True),
+                    ("list", False),
+                    ("frozenset", True),
+                ],
+            },
+            {
+                "text": "Which statements about Python decorators are true?",
+                "answers": [
+                    ("They can modify a function’s behavior", True),
+                    ("They are defined using @ syntax", True),
+                    ("They can only be applied to class methods", False),
+                    ("They must return a function", True),
+                ],
+            },
+            {
                 "text": "What are valid ways to iterate over a list in Python?",
                 "answers": [
                     ("for item in my_list:", True),
@@ -100,6 +127,69 @@ class Command(BaseCommand):
                     ("foreach(item in my_list)", False),
                 ],
             },
+            {
+                "text": "Which of these are valid ways to create a dictionary?",
+                "answers": [
+                    ("dict(a=1, b=2)", True),
+                    ("{'a': 1, 'b': 2}", True),
+                    ("dict([('a', 1), ('b', 2)])", True),
+                    ("dict('a'=1, 'b'=2)", False),
+                ],
+            },
+            {
+                "text": "Which of the following raise a TypeError?",
+                "answers": [
+                    ("len(42)", True),
+                    ("'abc' + 5", True),
+                    ("None + None", True),
+                    ("int('42')", False),
+                ],
+            },
+            {
+                "text": "Which are valid ways to handle exceptions in Python?",
+                "answers": [
+                    ("try/except", True),
+                    ("try/finally", True),
+                    ("try/except/finally", True),
+                    ("catch/except", False),
+                ],
+            },
+            {
+                "text": "Which of these are valid Python set operations?",
+                "answers": [
+                    ("set1 | set2", True),
+                    ("set1 & set2", True),
+                    ("set1 - set2", True),
+                    ("set1 + set2", False),
+                ],
+            },
+            {
+                "text": "Which of the following are true about Python’s with statement?",
+                "answers": [
+                    ("It simplifies resource management", True),
+                    ("It requires the object to implement __enter__ and __exit__", True),
+                    ("It can be used with file operations", True),
+                    ("It automatically retries failed operations", False),
+                ],
+            },
+            {
+                "text": "Which of these are valid ways to define a function in Python?",
+                "answers": [
+                    ("def func(): pass", True),
+                    ("lambda x: x + 1", True),
+                    ("function func() {}", False),
+                    ("def func(x): return x * 2", True),
+                ],
+            },
+            {
+                "text": "Which of these are Python built-in functions?",
+                "answers": [
+                    ("enumerate()", True),
+                    ("map()", True),
+                    ("filter()", True),
+                    ("select()", False),
+                ],
+            },           
         ]
 
         for q_data in questions_data:
@@ -108,3 +198,4 @@ class Command(BaseCommand):
                 Answer.objects.create(question=question, text=answer_text, is_correct=is_correct)
 
         self.stdout.write(self.style.SUCCESS("✅ Python quiz seeded successfully!"))
+        

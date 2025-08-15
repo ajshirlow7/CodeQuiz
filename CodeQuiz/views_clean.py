@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
 import json
 
 
@@ -13,7 +12,6 @@ def home_page_view(request):
     return render(request, 'home.html')
 
 
-@csrf_exempt
 def register_view(request):
     """
     Handle user registration via AJAX POST request.
@@ -57,7 +55,6 @@ def register_view(request):
     })
 
 
-@csrf_exempt
 def login_view(request):
     """
     Handle user login via AJAX POST request.
