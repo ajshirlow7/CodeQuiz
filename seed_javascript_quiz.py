@@ -98,6 +98,106 @@ questions_data = [
             ("Server-side rendering (unless using Node.js)", False),
         ]
     },
+{
+        "text": "Which of the following are valid ways to declare an arrow function?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "const add = (a, b) => a + b", "is_correct": True},
+            {"text": "let greet = () => \"Hello\"", "is_correct": True},
+            {"text": "function => ()", "is_correct": False},
+            {"text": "arrow function() => {}", "is_correct": False},
+        ],
+    },
+    {
+        "text": "What are valid uses of the typeof operator?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "typeof \"hello\" returns \"string\"", "is_correct": True},
+            {"text": "typeof 42 returns \"number\"", "is_correct": True},
+            {"text": "typeof null returns \"null\"", "is_correct": False},
+            {"text": "typeof undefined returns \"null\"", "is_correct": False},
+        ],
+    },
+    {
+        "text": "Which of these are valid JavaScript loop types?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "for", "is_correct": True},
+            {"text": "while", "is_correct": True},
+            {"text": "do...while", "is_correct": True},
+            {"text": "loop...until", "is_correct": False},
+        ],
+    },
+    {
+        "text": "What are valid ways to prevent default form submission in JavaScript?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "event.preventDefault()", "is_correct": True},
+            {"text": "return false", "is_correct": True},
+            {"text": "event.stopPropagation()", "is_correct": False},
+            {"text": "form.cancel()", "is_correct": False},
+        ],
+    },
+    {
+        "text": "Which of the following are valid JavaScript string methods?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": ".slice()", "is_correct": True},
+            {"text": ".toUpperCase()", "is_correct": True},
+            {"text": ".includes()", "is_correct": True},
+            {"text": ".splitBy()", "is_correct": False},
+        ],
+    },
+    {
+        "text": "Which of these are valid ways to define an object in JavaScript?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "const obj = { key: \"value\" }", "is_correct": True},
+            {"text": "let user = new Object()", "is_correct": True},
+            {"text": "object user = {}", "is_correct": False},
+            {"text": "define obj = {}", "is_correct": False},
+        ],
+    },
+    {
+        "text": "What are valid ways to convert a string to a number in JavaScript?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "parseInt(\"42\")", "is_correct": True},
+            {"text": "Number(\"3.14\")", "is_correct": True},
+            {"text": "+\"100\"", "is_correct": True},
+            {"text": "int(\"42\")", "is_correct": False},
+        ],
+    },
+    {
+        "text": "Which of the following are valid array methods in JavaScript?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": ".push()", "is_correct": True},
+            {"text": ".pop()", "is_correct": True},
+            {"text": ".splice()", "is_correct": True},
+            {"text": ".remove()", "is_correct": False},
+        ],
+    },
+    {
+        "text": "What are valid ways to check if a variable is undefined?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "typeof x === \"undefined\"", "is_correct": True},
+            {"text": "x === undefined", "is_correct": True},
+            {"text": "x == null", "is_correct": False},
+            {"text": "x = undefined", "is_correct": False},
+        ],
+    },
+    {
+        "text": "Which of the following are valid ways to write conditional logic in JavaScript?",
+        "tags": ["javascript"],
+        "answers": [
+            {"text": "if (x > 0) { ... }", "is_correct": True},
+            {"text": "x > 0 ? \"yes\" : \"no\"", "is_correct": True},
+            {"text": "switch(x) { case 1: ... }", "is_correct": True},
+            {"text": "when x > 0 then ...", "is_correct": False},
+        ],
+    },
 ]
 
 # Create questions and answers
@@ -115,3 +215,9 @@ for i, q_data in enumerate(questions_data, start=1):
         )
 
 print("✅ JavaScript quiz seeded successfully.")
+
+
+
+
+
+    
