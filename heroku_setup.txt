@@ -1,0 +1,17 @@
+# Heroku Environment Variables Setup
+# Run these commands in your terminal after installing Heroku CLI
+
+# 1. Set your Django secret key
+heroku config:set SECRET_KEY="your-super-secret-key-here" --app codequiz-49785f7e4e72
+
+# 2. Set your database URL (get this from your Neon database dashboard)
+heroku config:set DATABASE_URL="postgresql://neondb_owner:npg_Y2iLFsTG0lfy@ep-small-credit-a2xrpd0x.eu-central-1.aws.neon.tech/gut_cozy_fence_909666" --app codequiz-49785f7e4e72
+
+# 3. Verify the config vars are set
+heroku config --app codequiz-49785f7e4e72
+
+# 4. Check the logs for deployment
+heroku logs --tail --app codequiz-49785f7e4e72
+
+# 5. If needed, restart the dynos
+heroku restart --app codequiz-49785f7e4e72

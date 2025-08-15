@@ -14,6 +14,13 @@ from pathlib import Path
 import os
 import dj_database_url
 
+# Debug information for Heroku
+print("=== Django Settings Debug ===")
+print(f"env.py exists: {os.path.isfile('env.py')}")
+print(f"DATABASE_URL in env: {'DATABASE_URL' in os.environ}")
+print(f"SECRET_KEY in env: {'SECRET_KEY' in os.environ}")
+print("==============================")
+
 
 if os.path.isfile('env.py'):
     import env
@@ -31,7 +38,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
-    'django-insecure-7=^j#08jv#(@#061jlu33i-o@wl_e41*c(5k#eib($6wwm#_6='
+    'django-insecure-heroku-fallback-key-change-this-in-production-2024'
 )
 
 ALLOWED_HOSTS = ['codequiz-49785f7e4e72.herokuapp.com', '.herokuapp.com', '127.0.0.1', 'localhost']
@@ -103,10 +110,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # }
 
 # Production database configuration
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {"default": dj_database_url.parse(os.environ.get('DATABASE_URL'))}
-else:
-    # Fallback for local development
+try:
+    if 'DATABASE_URL' in os.environ:
+        DATABASES = {"default": dj_database_url.parse(os.environ.get('DATABASE_URL'))}
+    else:
+        # Fallback for local development
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+except Exception as e:
+    print(f"Database configuration error: {e}")
+    # Emergency fallback
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
