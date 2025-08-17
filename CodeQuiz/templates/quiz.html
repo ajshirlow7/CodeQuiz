@@ -1,3 +1,4 @@
+{% load quiz_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,16 @@
         .navbar-custom .nav-link { color: #FDE74C; font-family: 'Lexend', sans-serif; }
         .btn-warning { font-family: 'Lexend', sans-serif; }
         .footer-custom { background-color: #404E4D; color: #FDE74C; font-family: 'Lexend', sans-serif; padding: 0.5rem 0; text-align: center; position: fixed; left: 0; bottom: 0; width: 100%; font-size: 0.875rem; }
+        .answer-correct {
+            border: 2px solid #28a745 !important;
+            border-radius: 5px;
+            background-color: #eaffea;
+        }
+        .answer-incorrect {
+            border: 2px solid #dc3545 !important;
+            border-radius: 5px;
+            background-color: #ffeaea;
+        }
     </style>
 </head>
 <body>
@@ -50,7 +61,7 @@
     <!-- Quiz Content -->
     <div class="container mt-5">
     <h2 class="mb-4">{{ quiz_type }} Quiz ({{ questions|length }} questions)</h2>
-        {% if score is defined %}
+        {% if score is not None %}
         <div class="alert alert-info text-center" role="alert" style="font-size:1.2em;">
                 You scored {{ score }} out of {{ total_questions }}!
                 {% if score == total_questions %}
@@ -78,16 +89,26 @@
                         </div>
                         {% endfor %}
                     </div>
+                    <div class="mt-2 text-secondary" style="font-size:0.95em;">
+                        Right answers: <span style="color:#007bff;font-weight:bold;">{% if question.answers %}{{ question.answers|count_correct }}{% elif question.correct %}{% if question.correct|length %}{{ question.correct|length }}{% else %}1{% endif %}{% else %}0{% endif %} / {% if question.answers %}{{ question.answers|length }}{% else %}{{ question.choices|length }}{% endif %}</span>
+                    </div>
                     {% endif %}
                     {% if question.answers %}
                     <div class="form-group">
                         {% for answer in question.answers %}
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="q{{ forloop.parentloop.counter }}" value="{{ answer.0 }}" id="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
-                            <label class="form-check-label" for="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.0 }}</label>
-                        </div>
+                        {% if score is not None %}
+                            <div class="form-check {% if answer.1 %}answer-correct{% else %}answer-incorrect{% endif %}">
+                        {% else %}
+                            <div class="form-check">
+                        {% endif %}
+                                <input class="form-check-input" type="checkbox" name="q{{ forloop.parentloop.counter }}" value="{{ answer.0 }}" id="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}" {% if user_answers and user_answers|get_item:forloop.parentloop.counter and answer.0 in user_answers|get_item:forloop.parentloop.counter %}checked{% endif %}>
+                                <label class="form-check-label" for="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.0 }}</label>
+                            </div>
                         {% endfor %}
                     </div>
+                        <div class="mt-2 text-secondary" style="font-size:0.95em;">
+                            Right answers: <span style="color:#007bff;font-weight:bold;">{{ question.answers|count_correct }} / {{ question.answers|count_total }}</span>
+                        </div>
                     {% endif %}
                 </div>
             </div>

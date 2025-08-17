@@ -63,24 +63,26 @@ def quiz_html_view(request):
     page_obj = paginator.get_page(page_number)
     score = None
     total_questions = len(page_obj.object_list)
+    user_answers = {}
     if request.method == 'POST':
-        # Calculate score based on submitted answers
         score = 0
         for idx, question in enumerate(page_obj.object_list, start=1):
-            user_answers = request.POST.getlist(f'q{idx}')
+            ans = request.POST.getlist(f'q{idx}')
+            user_answers[idx] = ans
             correct_answers = []
             if hasattr(question, 'answers'):
                 correct_answers = [a[0] for a in question.answers if len(a) > 1 and a[1] is True]
             elif hasattr(question, 'choices') and hasattr(question, 'correct'):
                 correct_answers = question.correct if isinstance(question.correct, list) else [question.correct]
-            if set(user_answers) == set(correct_answers):
+            if set(ans) == set(correct_answers):
                 score += 1
     return render(request, 'quiz.html', {
         'questions': page_obj.object_list,
         'quiz_type': 'HTML',
         'page_obj': page_obj,
         'score': score,
-        'total_questions': total_questions
+        'total_questions': total_questions,
+        'user_answers': user_answers
     })
 
 
@@ -90,23 +92,26 @@ def quiz_css_view(request):
     page_obj = paginator.get_page(page_number)
     score = None
     total_questions = len(page_obj.object_list)
+    user_answers = {}
     if request.method == 'POST':
         score = 0
         for idx, question in enumerate(page_obj.object_list, start=1):
-            user_answers = request.POST.getlist(f'q{idx}')
+            ans = request.POST.getlist(f'q{idx}')
+            user_answers[idx] = ans
             correct_answers = []
             if hasattr(question, 'answers'):
                 correct_answers = [a[0] for a in question.answers if len(a) > 1 and a[1] is True]
             elif hasattr(question, 'choices') and hasattr(question, 'correct'):
                 correct_answers = question.correct if isinstance(question.correct, list) else [question.correct]
-            if set(user_answers) == set(correct_answers):
+            if set(ans) == set(correct_answers):
                 score += 1
     return render(request, 'quiz.html', {
         'questions': page_obj.object_list,
         'quiz_type': 'CSS',
         'page_obj': page_obj,
         'score': score,
-        'total_questions': total_questions
+        'total_questions': total_questions,
+        'user_answers': user_answers
     })
 
 
@@ -116,23 +121,26 @@ def quiz_javascript_view(request):
     page_obj = paginator.get_page(page_number)
     score = None
     total_questions = len(page_obj.object_list)
+    user_answers = {}
     if request.method == 'POST':
         score = 0
         for idx, question in enumerate(page_obj.object_list, start=1):
-            user_answers = request.POST.getlist(f'q{idx}')
+            ans = request.POST.getlist(f'q{idx}')
+            user_answers[idx] = ans
             correct_answers = []
             if hasattr(question, 'answers'):
                 correct_answers = [a[0] for a in question.answers if len(a) > 1 and a[1] is True]
             elif hasattr(question, 'choices') and hasattr(question, 'correct'):
                 correct_answers = question.correct if isinstance(question.correct, list) else [question.correct]
-            if set(user_answers) == set(correct_answers):
+            if set(ans) == set(correct_answers):
                 score += 1
     return render(request, 'quiz.html', {
         'questions': page_obj.object_list,
         'quiz_type': 'JavaScript',
         'page_obj': page_obj,
         'score': score,
-        'total_questions': total_questions
+        'total_questions': total_questions,
+        'user_answers': user_answers
     })
 
 
@@ -142,23 +150,26 @@ def quiz_python_view(request):
     page_obj = paginator.get_page(page_number)
     score = None
     total_questions = len(page_obj.object_list)
+    user_answers = {}
     if request.method == 'POST':
         score = 0
         for idx, question in enumerate(page_obj.object_list, start=1):
-            user_answers = request.POST.getlist(f'q{idx}')
+            ans = request.POST.getlist(f'q{idx}')
+            user_answers[idx] = ans
             correct_answers = []
             if hasattr(question, 'answers'):
                 correct_answers = [a[0] for a in question.answers if len(a) > 1 and a[1] is True]
             elif hasattr(question, 'choices') and hasattr(question, 'correct'):
                 correct_answers = question.correct if isinstance(question.correct, list) else [question.correct]
-            if set(user_answers) == set(correct_answers):
+            if set(ans) == set(correct_answers):
                 score += 1
     return render(request, 'quiz.html', {
         'questions': page_obj.object_list,
         'quiz_type': 'Python',
         'page_obj': page_obj,
         'score': score,
-        'total_questions': total_questions
+        'total_questions': total_questions,
+        'user_answers': user_answers
     })
 
 
