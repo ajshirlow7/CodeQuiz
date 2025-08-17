@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz_type }} Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #5bc0eb; }
+        .navbar-custom { background-color: #404E4D; }
+        .navbar-custom .navbar-brand { color: #FDE74C; font-family: 'Bungee Shade', cursive; font-size: 2.2rem; }
+        .navbar-custom .nav-link { color: #FDE74C; font-family: 'Lexend', sans-serif; }
+        .btn-warning { font-family: 'Lexend', sans-serif; }
+        .footer-custom { background-color: #404E4D; color: #FDE74C; font-family: 'Lexend', sans-serif; padding: 0.5rem 0; text-align: center; position: fixed; left: 0; bottom: 0; width: 100%; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="navbar-brand-container">
+                <a class="navbar-brand" href="/">Code Quiz</a>
+            </div>
+            <div class="navbar-center d-flex justify-content-center flex-grow-1">
+                {% if user.is_authenticated %}
+                    <span style="color: #FDE74C; font-family: 'Lexend', sans-serif; font-size: 1.1rem;">
+                        You are signed in as <strong>{{ user.username }}</strong>
+                    </span>
+                {% endif %}
+            </div>
+            <div class="navbar-nav-container d-flex align-items-center">
+                <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/quiz/html/">HTML</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/quiz/css/">CSS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/quiz/javascript/">JavaScript</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/quiz/python/">Python</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quiz Content -->
+    <div class="container mt-5">
+    <h2 class="mb-4">{{ quiz_type }} Quiz ({{ questions|length }} questions)</h2>
+        {% if score is defined %}
+        <div class="alert alert-info text-center" role="alert" style="font-size:1.2em;">
+                You scored {{ score }} out of {{ total_questions }}!
+                {% if score == total_questions %}
+                    <br>Perfect score! 🎉
+                {% elif score > 0 %}
+                    <br>Great job! Keep practicing to improve even more.
+                {% else %}
+                    <br>Don't worry, try again and you'll get better!
+                {% endif %}
+        </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {% for question in questions %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Question {{ forloop.counter }}:</h5>
+                    <p class="card-text">{{ question.text }}</p>
+                    {% if question.choices %}
+                    <div class="form-group">
+                        {% for choice in question.choices %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="q{{ forloop.parentloop.counter }}" value="{{ choice }}" id="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                            <label class="form-check-label" for="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ choice }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if question.answers %}
+                    <div class="form-group">
+                        {% for answer in question.answers %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="q{{ forloop.parentloop.counter }}" value="{{ answer.0 }}" id="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                            <label class="form-check-label" for="q{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.0 }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit Answers</button>
+        </form>
+        <!-- Pagination Controls -->
+        {% if page_obj %}
+        <nav aria-label="Quiz pagination">
+            <ul class="pagination justify-content-center mt-4">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                {% endif %}
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <span>&copy; 2025 Code Quiz. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
