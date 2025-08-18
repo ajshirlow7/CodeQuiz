@@ -1,3 +1,4 @@
+
 from django.urls import path
 from .views_clean import home_page_view, register_view, login_view, logout_view, quiz_html_view, quiz_css_view, quiz_javascript_view, quiz_python_view
 
