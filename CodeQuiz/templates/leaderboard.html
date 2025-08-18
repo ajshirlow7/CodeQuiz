@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Code Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Lexend:wght@100..900&display=swap');
+        body {
+            background-color: #5bc0eb;
+        }
+        .navbar-custom {
+            background-color: #404E4D;
+        }
+        .navbar-custom .navbar-brand {
+            color: #FDE74C;
+            font-family: 'Bungee Shade', cursive;
+            font-size: 2.2rem;
+        }
+        .navbar-custom .nav-link {
+            color: #FDE74C;
+            font-family: 'Lexend', sans-serif;
+        }
+        .leaderboard-title {
+            color: #404E4D;
+            font-family: 'Bungee Shade', cursive;
+            margin-top: 2rem;
+        }
+        .leaderboard-table {
+            background-color: #FDE74C;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(64,78,77,0.15);
+            font-family: 'Lexend', sans-serif;
+        }
+        .leaderboard-table th {
+            background-color: #404E4D;
+            color: #FDE74C;
+            font-family: 'Lexend', sans-serif;
+        }
+        .leaderboard-table td {
+            color: #404E4D;
+        }
+        .cat-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="navbar-brand-container">
+                <a class="navbar-brand" href="/">Code Quiz</a>
+            </div>
+            <div class="navbar-center d-flex justify-content-center flex-grow-1">
+                {% if user.is_authenticated %}
+                    <span style="color: #FDE74C; font-family: 'Lexend', sans-serif; font-size: 1.1rem;">
+                        You are signed in as <strong>{{ user.username }}</strong>
+                    </span>
+                {% endif %}
+            </div>
+            <div class="navbar-nav-container d-flex align-items-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/leaderboard/">Leaderboard</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="leaderboard-title text-center">Leaderboard</h1>
+        <div class="cat-container">
+            <!-- Cat SVG copied from home.html -->
+            <svg width="120" height="140" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: bounce 1.2s infinite;">
+                <ellipse cx="100" cy="140" rx="60" ry="70" fill="#FDE74C" stroke="#404E4D" stroke-width="8"/>
+                <ellipse cx="100" cy="80" rx="40" ry="36" fill="#FDE74C" stroke="#404E4D" stroke-width="8"/>
+                <polygon points="70,60 80,20 90,60" fill="#FDE74C" stroke="#404E4D" stroke-width="6"/>
+                <polygon points="130,60 120,20 110,60" fill="#FDE74C" stroke="#404E4D" stroke-width="6"/>
+                <polygon points="78,44 80,28 86,56" fill="#FFB6B6" stroke="#FFB6B6" stroke-width="2"/>
+                <polygon points="122,44 120,28 114,56" fill="#FFB6B6" stroke="#FFB6B6" stroke-width="2"/>
+                <ellipse id="cat-eye-left" cx="88" cy="80" rx="6" ry="8" fill="#404E4D"/>
+                <ellipse id="cat-eye-right" cx="112" cy="80" rx="6" ry="8" fill="#404E4D"/>
+                <ellipse id="cat-eyelid-left" cx="88" cy="80" rx="6" ry="8" fill="#FDE74C" style="opacity:0;"/>
+                <ellipse id="cat-eyelid-right" cx="112" cy="80" rx="6" ry="8" fill="#FDE74C" style="opacity:0;"/>
+                <ellipse cx="100" cy="94" rx="4" ry="3" fill="#404E4D"/>
+                <path d="M96 100 Q100 108 104 100" stroke="#404E4D" stroke-width="4" fill="none"/>
+                <path d="M84 94 Q68 96 84 100" stroke="#404E4D" stroke-width="2" fill="none"/>
+                <path d="M116 94 Q132 96 116 100" stroke="#404E4D" stroke-width="2" fill="none"/>
+                <path d="M84 100 Q68 104 84 108" stroke="#404E4D" stroke-width="2" fill="none"/>
+                <path d="M116 100 Q132 104 116 108" stroke="#404E4D" stroke-width="2" fill="none"/>
+                <path d="M64 120 Q40 144 80 176 Q88 184 104 176" stroke="#404E4D" stroke-width="10" fill="none"/>
+                <ellipse cx="80" cy="176" rx="8" ry="5" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+                <path d="M136 120 Q160 144 120 176 Q112 184 96 176" stroke="#404E4D" stroke-width="10" fill="none"/>
+                <ellipse cx="120" cy="176" rx="8" ry="5" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+                <ellipse cx="56" cy="210" rx="12" ry="8" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+                <ellipse cx="144" cy="210" rx="12" ry="8" fill="#FDE74C" stroke="#404E4D" stroke-width="3"/>
+                <path d="M160 180 Q190 220 160 240" stroke="#404E4D" stroke-width="8" fill="none"/>
+            </svg>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <table class="table leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th>HTML</th>
+                            <th>CSS</th>
+                            <th>JavaScript</th>
+                            <th>Python</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in entries %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ entry.username }}</td>
+                            <td>{{ entry.html_score }}</td>
+                            <td>{{ entry.css_score }}</td>
+                            <td>{{ entry.javascript_score }}</td>
+                            <td>{{ entry.python_score }}</td>
+                            <td>{{ entry.total_score }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No leaderboard data yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <style>
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+    <script>
+        // Animate cat eyes to blink every 2.5 seconds
+        setInterval(() => {
+            document.getElementById('cat-eyelid-left').style.opacity = '1';
+            document.getElementById('cat-eyelid-right').style.opacity = '1';
+            setTimeout(() => {
+                document.getElementById('cat-eyelid-left').style.opacity = '0';
+                document.getElementById('cat-eyelid-right').style.opacity = '0';
+            }, 200);
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,3 +1,15 @@
+
+
+# Diagnostic print to confirm settings.py is loaded
+print('=== settings.py loaded: start ===')
+
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
+# Diagnostic print to confirm .env loaded
+print('=== .env loaded ===')
+
 """
 Django settings for config project.
 
